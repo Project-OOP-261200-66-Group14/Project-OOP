@@ -22,6 +22,7 @@ class ConfigGameTest {
         assertEquals(10000, GameConfig.init_budget());
         assertEquals(100, GameConfig.init_center_dep());
         assertEquals(30, GameConfig.plan_rev_min());
+        assertEquals(0, GameConfig.plan_rev_sec());
         assertEquals(100, GameConfig.rev_cost());
         assertEquals(1000000, GameConfig.max_dep());
         assertEquals(5, GameConfig.interest_pct());
