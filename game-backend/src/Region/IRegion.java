@@ -2,5 +2,10 @@ package Region;
 
 public interface IRegion {
 
-// public Player.Player
+    bolean isCityCenter();
+
+    long
+
+
+
 }
