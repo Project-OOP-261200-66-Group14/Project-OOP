@@ -1,5 +1,9 @@
 package Parser;
+
 import Tokenizer.*;
+import Statement.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProcessParse implements Parser {
     private final Tokenizer tkz;
@@ -8,89 +12,249 @@ public class ProcessParse implements Parser {
         this.tkz = tkz;
     }
 
-    // Plan → Statement+
-    private void parsePlan() {
+    @Override
+    public Expr parse() throws SyntaxError, LexicalError {
+        Expr result = parsePlan();
+        if (tkz.hasNextToken()) {
+            throw new SyntaxError("leftover token");
+        }
+        return result;
+    }
 
+    // Plan → Statement+
+    private Expr parsePlan() {
+        List<Expr> statements = new ArrayList<>();
+
+        while (tkz.hasNextToken()) {
+            Expr expression = parseExpression();
+            statements.add(expression);
+
+            if (tkz.peek().equals(";")) {
+                tkz.consume(";");
+            } else {
+                break;
+            }
+        }
+        return new Plan(statements);
     }
 
     // Statement → Command | BlockStatement | IfStatement | WhileStatement
-    private void parseStatement() {
+    private Expr parseStatement() {
+        String currentToken = tkz.peek();
 
+        if ("if".equals(currentToken)) {
+            return parseIfStatement();
+        } else if ("while".equals(currentToken)) {
+            return parseWhileStatement();
+        } else if ("{".equals(currentToken)) {
+            return parseBlockStatement();
+        } else if ("...".equals(currentToken)) {
+            return parseCommand();
+        }
+        throw new SyntaxError("Invalid statement: " + currentToken);
     }
 
     // Command → AssignmentStatement | ActionCommand
-    private void parseCommand() {
+    private Expr parseCommand() {
+        String currentToken = tkz.peek();
 
+        if ("assignment".equals(currentToken)) {
+            return new Command(parseAssignmentStatement());
+        } else {
+            return new Command(parseActionCommand());
+        }
     }
 
     // AssignmentStatement → Expression
-    private void parseAssignmentStatement() {
-
+    private Expr parseAssignmentStatement() {
+        String variable = tkz.consume();
+        tkz.consume("=");
+        Expr expression = parseExpression();
+        return new AssignmentStatement(variable, expression);
     }
 
     // ActionCommand → done | relocate | MoveCommand | RegionCommand | AttackCommand
-    private void parseActionCommand() {
-
+    private Expr parseActionCommand() {
+        String currentToken = tkz.peek();
+        return switch (currentToken) {
+            case "done" -> {
+                tkz.consume("done");
+                yield new ActionCommand(ActionType.DONE);
+            }
+            case "relocate" -> {
+                tkz.consume("relocate");
+                yield new ActionCommand(ActionType.RELOCATE);
+            }
+            case "move" -> parseMoveCommand();
+            case "region" -> parseRegionCommand();
+            case "attack" -> parseAttackCommand();
+            default -> throw new SyntaxError("Invalid action command: " + currentToken);
+        };
     }
 
     // MoveCommand → move Direction
-    private void parseMoveCommand() {
-
+    private Expr parseMoveCommand() {
+        tkz.consume("move");
+        Expr direction = parseDirection();
+        return new MoveCommand(direction);
     }
 
     // RegionCommand → invest Expression | collect Expression
-    private void parseRegionCommand() {
+    private Expr parseRegionCommand() {
+        String currentToken = tkz.peek();
 
+        if ("invest".equals(currentToken)) {
+            tkz.consume("invest");
+            Expr expression = parseExpression(); // You need to implement parseExpression
+            return new InvestCommand(expression);
+        } else if ("collect".equals(currentToken)) {
+            tkz.consume("collect");
+            Expr expression = parseExpression(); // You need to implement parseExpression
+            return new CollectCommand(expression);
+        } else {
+            throw new SyntaxError("Invalid region command: " + currentToken);
+        }
     }
 
     // AttackCommand → shoot Direction Expression
-    private void parseAttackCommand() {
-
+    private Expr parseAttackCommand() {
+        tkz.consume("shoot");
+        Expr direction = parseDirection();
+        Expr expression = parseExpression();
+        return new AttackCommand(direction, expression);
     }
 
     // Direction → up | down | upleft | upright | downleft | downright
-    private void parseDirection() {
-
+    private Expr parseDirection() throws SyntaxError {
+        if (tkz.hasNextToken()) {
+            boolean currentToken = tkz.hasNextToken();
+            String direction = String.valueOf(currentToken);
+            if ("up".equals(direction) || "down".equals(direction)
+                    || "upleft".equals(direction) || "upright".equals(direction)
+                    || "downleft".equals(direction) || "downright".equals(direction)) {
+                return new Direction(direction);
+            }
+        }
+        throw new SyntaxError("Expected direction keyword, but found the end of input");
     }
 
-    // BlockStatement → { Statement* }
-    private void parseBlockStatement() {
 
+    // BlockStatement → { Statement* }
+    private Expr parseBlockStatement() {
+        tkz.consume("{");
+        List<Expr> statements = new ArrayList<>();
+        while (!tkz.peek().equals("}")) {
+            statements.add(parseStatement());
+        }
+        tkz.consume("}");
+        return new BlockStatement(statements);
     }
 
     // IfStatement → if ( Expression ) then Statement else Statement
-    private void parseIfStatement() {
-
+    private Expr parseIfStatement() {
+        tkz.consume("if");
+        tkz.consume("(");
+        Expr condition = parseExpression();
+        tkz.consume(")");
+        Expr thenClause = parseStatement();
+        tkz.consume("else");
+        Expr elseClause = parseStatement();
+        return new IfStatement(condition, thenClause, elseClause);
     }
 
     // WhileStatement → while ( Expression ) Statement
-    private void parseWhileStatement() {
-
+    private Expr parseWhileStatement() {
+        tkz.consume("while");
+        tkz.consume("(");
+        Expr condition = parseExpression();
+        tkz.consume(")");
+        Expr thenClause = parseStatement();
+        return new WhileStatement(condition, thenClause);
     }
 
     // Expression → Expression + Term | Expression - Term | Term
-    private void parseExpression() {
-
+    private Expr parseExpression() {
+        Expr e = parseTerm();
+        while (tkz.peek("+") || tkz.peek("-")) {
+            String operator = tkz.consume();
+            e = new BinaryArithExpr(e, operator, parseTerm());
+        }
+        return e;
     }
 
     // Term → Term * Factor | Term / Factor | Term % Factor | Factor
-    private void parseTerm() {
-
+    private Expr parseTerm() {
+        Expr t = parseFactor();
+        while (tkz.peek("*") || tkz.peek("/") || tkz.peek("%")) {
+            String operator = tkz.consume();
+            t = new BinaryArithExpr(t, operator, parseExpression());
+        }
+        return t;
     }
 
-    // Factor → Power ^ Factor | Power
-    private void parseFactor() {
-
+    private Expr parseFactor() {
+        Expr t = parsePower(); // Change this line to parsePower
+        while (tkz.peek("^")) {
+            String operator = tkz.consume();
+            t = new BinaryArithExpr(t, operator, parsePower());
+        }
+        return t;
     }
 
     // Power → <number> | <identifier> | ( Expression ) | InfoExpression
-    private void parsePower() {
-
+    private Expr parsePower() {
+        if (tkz.hasNextToken()) {
+            String currentToken = tkz.peek();
+            if (isNumber(currentToken)) {
+                return parseExpression();
+            } else if (isVariable(currentToken)) {
+                return parseAssignmentStatement();
+            } else if ("(".equals(currentToken)) {
+                tkz.consume("(");
+                Expr expression = parseExpression();
+                tkz.consume(")");
+                return expression;
+            } else if (isInfoExpression(currentToken)) {
+                return parseIntoExpression();
+            } else {
+                throw new SyntaxError("Invalid token: " + currentToken);
+            }
+        } else {
+            throw new SyntaxError("Unexpected end of input");
+        }
     }
 
     // InfoExpression → opponent | nearby Direction
-    private void parseIntoExpression() {
+    private Expr parseIntoExpression() {
+        String currentToken = tkz.peek();
 
+        if ("opponent".equals(currentToken)) {
+            tkz.consume("opponent");
+            return new OpponentExpr();
+        } else if ("nearby".equals(currentToken)) {
+            tkz.consume("nearby");
+            Expr direction = parseDirection();
+            return new NearbyExpr(direction);
+        } else {
+            // Handle the case where none of the expected tokens match
+            throw new SyntaxError("Invalid InfoExpression: " + currentToken);
+        }
     }
 
+    private boolean isNumber(String peek) {
+        try {
+            Integer.parseInt(peek);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean isVariable(String peek) {
+        return peek.matches("[a-zA-Z_][a-zA-Z0-9_]*");
+    }
+
+    private boolean isInfoExpression(String peek) {
+        return (peek.equals("opponent") || peek.equals("nearby Direction"));
+    }
 }
