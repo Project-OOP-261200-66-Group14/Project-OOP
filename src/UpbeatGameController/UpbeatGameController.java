@@ -1,5 +1,8 @@
+package UpbeatGameController;
 
-public class UpbeatGameController implements IUpbeatGameController{
+import Teritory.Territory;
+
+public class UpbeatGameController implements IUpbeatGameController {
 
     private Territory territory;
     @Override

@@ -1,3 +1,5 @@
+package Region;
+
 public class Region implements IRegion {
 
     private double deposit;
@@ -18,8 +20,8 @@ public class Region implements IRegion {
     };
 
 
-//  private Player owner;
-//  private Player getOwner;
+//  private Player.Player owner;
+//  private Player.Player getOwner;
 
 
 

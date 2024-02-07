@@ -1,4 +1,8 @@
-public class Player extends Region implements IPlayer{
+package Player;
+
+import Region.Region;
+
+public class Player extends Region implements IPlayer {
     private long budget;
     private String name;
 
@@ -22,7 +26,5 @@ public class Player extends Region implements IPlayer{
         return null;
     }
 
-//    public Region curRegion(){
-//
-//    }
+
 }
