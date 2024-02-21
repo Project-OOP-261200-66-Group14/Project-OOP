@@ -1,0 +1,205 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #000;
+}
+#homepage {
+  cursor: pointer;
+}
+.turn-indicator {
+  font-family: "Rowdies", sans-serif;
+  color: white;
+  position: absolute;
+  top: 14%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  z-index: 3;
+}
+.game-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.scoreboard {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+}
+
+.player img {
+  width: 30px;
+  margin-right: 10px;
+}
+
+.score {
+  background: white;
+  border-radius: 20px;
+  padding: 5px 20px;
+  color: black;
+  display: inline-block;
+}
+
+.background img {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.hex {
+  width: 60px;
+  height: 65px;
+  background-color: white;
+  display: inline-block;
+  margin: 0 5px;
+  transform: rotate(90deg);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+.hex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 52%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 47.5%;
+  left: 44.32%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 52%;
+  left: 48.64%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column4 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 47.5%;
+  left: 52.96%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column5 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 52%;
+  left: 57.28%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column6 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 47.5%;
+  left: 61.6%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column7 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 52%;
+  left: 65.92%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column8 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 47.5%;
+  left: 70.24%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column9 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 52%;
+  left: 74.56%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column10 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 47.5%;
+  left: 78.88%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column11 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 52%;
+  left: 83.2%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hex-column12 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 47.5%;
+  left: 87.52%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+#home {
+  z-index: 4;
+  position: absolute; /* หรือ 'fixed' ถ้าคุณต้องการให้ภาพอยู่นิ่งเมื่อเลื่อนหน้าเว็บ */
+  left: 20px; /* ตั้งค่าให้อยู่ทางซ้ายสุด */
+  bottom: 10px; /* ตั้งค่าให้อยู่ล่างสุด */
+  width: 70px; /* หรือความกว้างที่คุณต้องการ */
+  height: auto; /* ความสูงจะปรับตัวอัตโนมัติเพื่อรักษาอัตราส่วน */
+}
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+#home:hover {
+  animation: bounce 0.5s;
+}

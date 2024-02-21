@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UPBEAT Game</title>
+    <link rel="stylesheet" href="../css/exit.css" />
+  </head>
+
+  <body>
+    <div class="container3">
+      <div class="background">
+        <img src="../picture/exit/exit.png" alt="exit" id="exit" />
+      <div class="content">
+        <img src="../picture/exit/yes.png" alt="yes" id="yes" class="button" />
+        <img src="../picture/exit/no.png" alt="no" id="no" class="button" />
+      <div>
+      </div>
+    </div>
+    <script>
+      document.getElementById('yes').addEventListener('click', function() {
+        window.close(); // This attempts to close the current tab/window
+      });
+    
+      document.getElementById('no').addEventListener('click', function() {
+        window.location.href = 'home.html'; // Adjust the path if necessary
+      });
+    </script>
+    
+  </body>
+</html>

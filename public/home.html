@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UPBEAT Game</title>
+    <link rel="stylesheet" href="../css/home.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="background">
+        <img src="../picture/home/ground.png" alt="Ground" class="ground" />
+        <img
+          src="../picture/home/4.png"
+          alt="Stars Background"
+          class="stars-bg"
+        />
+        <img src="../picture/home/5.png" alt="Campfire" id="campfire-image" />
+        <img src="../picture/home/6.png" alt="Tent" id="tent-image" />
+        <img
+          src="../picture/home/7.png"
+          alt="Characters"
+          id="characters-image"
+        />
+        <img
+          src="../picture/home/8.png"
+          alt="Characters"
+          id="characters-image"
+        />
+      </div>
+      <div class="content">
+        <h1>UPBEAT</h1>
+        <div class="buttons">
+          <img
+            src="../picture/home/1.png"
+            alt="Start Game"
+            class="button start"
+            id="start-image"
+          />
+          <img
+            src="../picture/home/2.png"
+            alt="How to Play"
+            class="button howtoplay"
+            id="howto-image"
+          />
+          <img
+            src="../picture/home/3.png"
+            alt="Exit Game"
+            class="button exit"
+            id="exit-image"
+          />
+        </div>
+        <script>
+          document
+            .getElementById("start-image")
+            .addEventListener("click", function () {
+              window.location.href = "start.html";
+            });
+
+          document
+            .getElementById("howto-image")
+            .addEventListener("click", function () {
+              window.location.href = "howto.html";
+            });
+
+          document
+            .getElementById("exit-image")
+            .addEventListener("click", function () {
+              window.location.href = "exit.html";
+            });
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
