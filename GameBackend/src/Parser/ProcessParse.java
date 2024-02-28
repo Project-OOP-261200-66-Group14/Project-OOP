@@ -2,10 +2,12 @@ package Parser;
 
 import Tokenizer.*;
 import Statement.*;
+import org.xml.sax.Parser;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcessParse implements Parser {
+public class ProcessParse implements ParserExpr {
     private final Tokenizer tkz;
 
     public ProcessParse(Tokenizer tkz) {

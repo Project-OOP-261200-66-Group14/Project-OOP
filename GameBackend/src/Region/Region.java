@@ -12,9 +12,9 @@ public class Region implements IRegion {
     public void setCurRow(int row){
         this.curRow = row;
     };
-    public int getCurRol(){
-
-    };
+//    public int getCurRol(){
+//
+//    };
     public void setCurRol(){
 
     };

@@ -1,5 +1,4 @@
-import GameProcess.*;
-import java.io.FileNotFoundException;
+import GameProcess.GameConfig;
 
 public class Main {
     public static void main(String[] args) {
