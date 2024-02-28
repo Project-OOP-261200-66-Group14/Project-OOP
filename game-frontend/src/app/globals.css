@@ -1,33 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Rowdies:wght@300;400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Rowdies", sans-serif;
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+  main {
+    @apply min-h-screen bg-cover bg-center max-h-screen overflow-hidden;
+  }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .bg-Home {
+    background-image: url("/picture/home/bgHome.png");
+    background-size: cover;
+  }
+
+  .bg-Howto {
+    background-image: url("/picture/howto/howto.png");
+    background-size: cover;
+  }
+
+  .bg-Exit {
+    background-image: url("/picture/exit/exit.png");
+    background-size: cover;
+  }
+
+  .bg-PreGame {
+    background-image: url("/picture/home/4.png");
+    background-size: cover;
+  }
+
+  .bg-Start {
+    background-image: url("/picture/home/4.png");
+    background-size: cover;
+  }
+
+  h1 {
+    z-index: 5;
+    color: #ffffff;
+    font-size: 4em;
+    margin-top: 40px;
+  }
+
+  .hex {
+    width: 60px;
+    height: 65px;
+    background-color: white;
+    display: inline-block;
+    margin: 0 5px;
+    transform: rotate(90deg);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+
+  .hex:hover {
+    width: 60px;
+    height: 65px;
+    background-color: green;
+    display: inline-block;
+    margin: 0 5px;
+    transform: rotate(90deg);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   }
 }
