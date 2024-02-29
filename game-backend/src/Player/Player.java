@@ -6,19 +6,28 @@ public class Player extends Region implements IPlayer {
     private long budget;
     private String name;
 
-    @Override
-    public long getBudget() {
-        return 0;
+    public Player(long budget,String name){
+        this.budget = budget;
+        this.name = name =name;
+
     }
 
     @Override
-    public void updateBudget() {
+    public long getBudget() {
+        return budget;
+    }
+
+    @Override
+    public bolean updateBudget(long amount) {
+        bolean totalBudget = budget + amount >= 0;
+        budget = Math.max(0,budget + amount);
+        return totalBudget;
 
     }
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
