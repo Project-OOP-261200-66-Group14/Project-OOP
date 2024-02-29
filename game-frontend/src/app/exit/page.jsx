@@ -14,7 +14,7 @@ export default function Exit() {
             <img 
               src="/picture/exit/no.png" 
               alt="" 
-              class="w-80 hover:"
+              class="w-80 hover:scale-110"
             />
           </a>
         </div>

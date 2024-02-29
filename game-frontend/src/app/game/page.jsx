@@ -2,26 +2,25 @@
 
 import { useState } from "react";
 import HexGrid from "./HexGrid";
+import 'animate.css';
 
 export default function Game() {
-  const rows = 8;
-  const columns = 14;
+  const rows = 10;
+  const columns = 10;
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
 
   const inputNameOnChange = (event) => {
     setName(event.target.value);
-    console.log(event.target.value);
   };
 
   const addName = () => {
     setUsername(name);
-    console.log(username);
   };
 
   return (
     <>
-      {username == "" ? (
+      {username == "" || username == " " ? (
         <>
           <main class="bg-PreGame flex justify-center items-center">
             <div class="flex flex-col justify-center items-center w-[360px] h-40 bg-slate-300 rounded-md ">
@@ -58,11 +57,12 @@ export default function Game() {
               <div class="col-span-2">
                 <div class="flex flex-col">
                   <div class="p-[40px]">
-                    <h1 class="text-3xl">Name: {username}</h1>
+                    <h1 class="text-3xl animate__animated animate__lightSpeedInLeft">Turn: 1</h1>
+                    <h1 class="text-3xl animate__animated animate__lightSpeedInLeft">Name: {username.toUpperCase()}</h1>
                   </div>
-                  <div class="p-[40px]">
+                  <div class="p-[40px] animate__animated animate__zoomIn">
                     <div>
-                      <h1 class="text-3xl">Player1</h1>
+                      <h1 class="text-3xl">Player1:{username.toUpperCase()}</h1>
                       <div class="flex items-center">
                         <img src="/picture/start/10.png" class="w-[80px]" />
                         <div class="bg-white p-3 ml-6 rounded-full w-[160px]">
@@ -72,7 +72,7 @@ export default function Game() {
                     </div>
                     <div>
                       <div>
-                        <h1 class="text-3xl">Player2</h1>
+                        <h1 class="text-3xl">Player2:BOT</h1>
                         <div class="flex items-center">
                           <img src="/picture/start/10.png" class="w-[80px]" />
                           <div class="bg-white p-3 ml-6 rounded-full w-[160px]">
