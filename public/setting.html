@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UPBEAT Game</title>
+    <link rel="stylesheet" href="../css/setting.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rowdies&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <div class="container4">
+    <img src="../picture/setting/setting.jpg" alt="setting" id="setting" />
+    <div class="setting-fields">
+      <div class="field">
+        <label for="time-to-plan">PLAYER</label>
+        <input type="text" id="time-to-plan" name="time-to-plan" />
+      </div>
+      <div class="field">
+        <label for="currency">CUR</label>
+        <input type="text" id="currency" name="currency" />
+      </div>
+      <div class="field">
+        <label for="row">ROW</label>
+        <input type="text" id="row" name="row" />
+      </div>
+      <div class="field">
+        <label for="interest-rate">INTEREST RATE</label>
+        <input type="text" id="interest-rate" name="interest-rate" />
+      </div>
+      <div class="field">
+        <label for="budget">BUDGET</label>
+        <input type="text" id="budget" name="budget" />
+      </div>
+      <div class="field">
+        <label for="time-to-plan">PLANNING TIME</label>
+        <input type="text" id="time-to-plan" name="time-to-plan" />
+      </div>
+    </div>
+
+    <img src="../picture/setting/enter.png" alt="enter" id="enter-image" />
+    <img src="../picture/howto/homepage.png" alt="homepage" id="homepage" />
+  </div>
+
+  <script>
+    document.getElementById("homepage").addEventListener("click", function () {
+      window.location.href = "home.html"; // Adjust the path if necessary
+    });
+    document
+      .getElementById("enter-image")
+      .addEventListener("click", function () {
+        window.location.href = "start.html"; // Adjust the path to your start page as necessary
+      });
+  </script>
+</html>

@@ -9,7 +9,7 @@ html {
 }
 #start-image,
 #howto-image,
-#exit-image {
+#setting-image {
   cursor: pointer;
 }
 
@@ -77,8 +77,8 @@ html {
   width: 180px;
   margin-bottom: -90px;
 }
-#exit-image {
-  width: 180px;
+#setting-image {
+  width: 175px;
 }
 .content {
   display: flex;

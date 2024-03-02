@@ -1,0 +1,109 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: white; /* For the text color */
+  font-family: "Rowdies", cursive;
+}
+
+.container4 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.field {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Adjust gap as needed */
+  margin-bottom: 20px;
+}
+.setting-fields {
+  position: absolute;
+  top: 47%; /* Adjust to place the fields at the correct vertical position */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: left;
+  z-index: 3; /* Make sure this is above the background image */
+}
+.field label {
+  color: white;
+  font-size: 18px; /* Adjust label font size as needed */
+}
+.setting-fields .field {
+  margin: 12px 0;
+}
+
+.setting-fields input[type="text"] {
+  width: 80px; /* Adjust width as needed */
+  flex: 1; /* Allow input to fill the space */
+  padding: 10px;
+  border: 2px solid white; /* White border as seen in the image */
+  border-radius: 50px;
+  font-size: 18px; /* Adjust font size as needed */
+  font-family: "Rowdies", cursive;
+}
+
+.setting-fields input[type="text"]::placeholder {
+  color: #000; /* Placeholder text color */
+}
+
+#setting {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  min-height: 50%;
+  top: 0;
+  z-index: 1;
+  min-height: 100%;
+}
+
+.field.enter {
+  text-align: center; /* Centers the image button */
+}
+#enter-image {
+  cursor: pointer;
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  bottom: 10%; /* Adjust based on actual position required */
+  transform: translateX(-50%);
+  width: 120px; /* Adjust as needed */
+  z-index: 4;
+}
+#homepage {
+  z-index: 2;
+  position: absolute;
+  left: 20px;
+  bottom: 10px;
+  width: 70px;
+  height: auto;
+}
+@keyframes animStar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+@keyframes bounce {
+  from {
+    transform: translate(-50%, 0);
+  }
+  to {
+    transform: translate(-50%, -7px);
+  }
+}
+#enter-image:hover {
+  animation: bounce 0.3s infinite alternate;
+}
+#homepage:hover {
+  animation: animStar 0.5s;
+}
