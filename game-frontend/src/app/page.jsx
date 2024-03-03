@@ -23,6 +23,14 @@ export default function Home() {
                 class="animate__animated animate__flipInX w-44 mt-8 animate__pulse hover:scale-110"
               />
             </a>
+            <a href="/howtoplay" class="hover:scale-110">
+              <img
+                src="/picture/home/setting.png"
+                alt="How to Play"
+                id="howto-image"
+                class="animate__animated animate__flipInX w-44 mt-8 animate__pulse hover:scale-110"
+              />
+            </a>
             <a href="/exit" class="hover:scale-110">
               <img
                 src="../picture/home/3.png"
