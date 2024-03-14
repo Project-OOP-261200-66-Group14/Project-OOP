@@ -8,7 +8,7 @@ public class Player extends Region implements IPlayer {
 
     public Player(long budget,String name){
         this.budget = budget;
-        this.name = name =name;
+        this.name = name;
 
     }
 
@@ -17,12 +17,11 @@ public class Player extends Region implements IPlayer {
         return budget;
     }
 
-    @Override
-    public bolean updateBudget(long amount) {
-        bolean totalBudget = budget + amount >= 0;
-        budget = Math.max(0,budget + amount);
-        return totalBudget;
 
+
+    @Override
+    public Player getOwner() {
+        return null;
     }
 
     @Override
@@ -31,8 +30,11 @@ public class Player extends Region implements IPlayer {
     }
 
     @Override
-    public Player getOwner() {
-        return null;
+    public boolean updateBudget(long amount) {
+        boolean totalBudget = budget + amount >=0;
+        budget = Math.max(0,budget + amount);
+        return totalBudget;
+
     }
 
 

@@ -1,4 +1,5 @@
 package UpbeatGameController;
+import java.util.Random;
 
 import Teritory.Territory;
 
@@ -12,6 +13,7 @@ public class UpbeatGameController implements IUpbeatGameController {
 
     @Override
     public void random() {
+
 
     }
 

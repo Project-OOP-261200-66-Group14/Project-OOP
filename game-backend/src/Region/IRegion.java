@@ -2,14 +2,15 @@ package Region;
 
 public interface IRegion {
 
-    bolean isCityCenter();
+//    bolean isCityCenter();
 
     long getDeposit();
 
     void changeCityCenter();
 
-    void updateDeposit(long amount);
-    void setCityCenter(Player owner);
+   abstract void updateDeposit();
+
+//    void setCityCenter(Player owner);
 
 
 
