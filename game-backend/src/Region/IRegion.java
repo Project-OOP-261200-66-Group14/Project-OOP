@@ -1,16 +1,18 @@
 package Region;
 
+import Player.Player;
+
 public interface IRegion {
 
 //    bolean isCityCenter();
 
     long getDeposit();
 
-    void changeCityCenter();
+    void changeCityCenter(Player owner);
 
    abstract void updateDeposit();
 
-//    void setCityCenter(Player owner);
+
 
 
 

@@ -7,7 +7,7 @@ public class Territory {
        this.rows = m;
        this.cols = n;
    }
-   public long getPosX()
+
 
 
 }

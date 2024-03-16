@@ -1,13 +1,23 @@
 package Region;
 
+import Player.Player;
+
 public class Region implements IRegion {
 
-    private double deposit;
+    private long deposit;
     private int curRow;
     private int curCol;
-    private int maxDeposit;
+    private long maxDeposit;
+    private player owner;
+    private boolean isCityCenter;
 
-    public Region()
+    public Region(long maxDeposit ){
+        this.maxDeposit = maxDeposit;
+        this.owner = null;
+        this.isCityCenter = false;
+        this.deposit = 0;
+
+    }
 
 
     public int getCurRow(){
@@ -23,26 +33,24 @@ public class Region implements IRegion {
     }
 
     @Override
-    public void changeCityCenter() {
+    public void changeCityCenter(Player owner) {
 
     }
+
+
 
     @Override
     public void updateDeposit() {
 
     }
 
-//    public int getCurRol(){
-//
-//    };
-//    public void setCurRol(){
-//
-//    };
+    @Override
+    public void updateDeposit(long amount) {
+        deposit = Math.max(0,amount + deposit);
+        deposit = Math.min(maxDeposit,deposit);
+    }
 
-
-//  private Player.Player owner;
-//  private Player.Player getOwner;
-
+/
 
 
 }

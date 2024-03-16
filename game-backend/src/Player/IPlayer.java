@@ -7,4 +7,5 @@ public interface IPlayer {
     public String getName();
     public boolean updateBudget(long amount);
     public long getBudget();
+
 }
