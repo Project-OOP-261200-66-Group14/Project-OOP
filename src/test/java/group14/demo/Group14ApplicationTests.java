@@ -71,17 +71,19 @@ class Game {
 	}
 
 	public void attackArea(String targetArea, int attackAmount) {
-		if (areaOwners.containsKey(targetArea) && !areaOwners.get(targetArea).equals(currentPlayer) &&
-				playerBudget >= attackAmount + ATTACK_COST) {
-			int currentDeposit = cityCentersDeposit.getOrDefault(targetArea, 0);
-			int newDeposit = Math.max(0, currentDeposit - attackAmount);
-			cityCentersDeposit.put(targetArea, newDeposit);
+		if (areaOwners.containsKey(targetArea)) {
+            areaOwners.get(targetArea);
+            if (playerBudget >= attackAmount + ATTACK_COST) {
+                int currentDeposit = cityCentersDeposit.getOrDefault(targetArea, 0);
+                int newDeposit = Math.max(0, currentDeposit - attackAmount);
+                cityCentersDeposit.put(targetArea, newDeposit);
 
-			playerBudget -= (attackAmount + ATTACK_COST);
-			if (newDeposit == 0) {
-				areaOwners.remove(targetArea);
-			}
-		}
+                playerBudget -= (attackAmount + ATTACK_COST);
+                if (newDeposit == 0) {
+                    areaOwners.remove(targetArea);
+                }
+            }
+        }
 	}
 
 	public void endTurn() {
