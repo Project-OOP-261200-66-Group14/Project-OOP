@@ -1,9 +1,10 @@
-import { DB } from "@/app/libs/DB";
+import { DB, readDB, saveDB, writeDB } from "@/app/libs/DB";
 import { zPlayDeleteBody, zPlayGetBody, zPlayPostBody } from "@/app/libs/schema";
 import { NextResponse } from "next/server";
 
 // แสดงข้อมูลตำแหน่งของ username นั้นๆ
 export const GET = async (request) => {
+  readDB();
   const username = request.nextUrl.searchParams.get("username");
 
   const parseResult = zPlayGetBody.safeParse({ username });
@@ -15,6 +16,14 @@ export const GET = async (request) => {
       {
         status: 400,
       }
+    );
+  }
+
+  const foundUsername = DB.players.find((std) => std.username === username);
+  if (!foundUsername) {
+    return NextResponse.json(
+      { message: "username not found" },
+      { status: 400 }
     );
   }
 
@@ -31,7 +40,7 @@ export const GET = async (request) => {
 // ส่งข้อมูลตำแหน่งใหม่เข้า DB
 export const POST = async (request) => {
   const body = await request.json();
-
+  readDB();
   const parseResult = zPlayPostBody.safeParse(body);
   if (parseResult.success === false) {
     return NextResponse.json(
@@ -84,7 +93,7 @@ export const POST = async (request) => {
     positionName: positionName,
     position: position,
   });
-
+  writeDB();
   return NextResponse.json({
     message: `new table got update`,
   });
@@ -93,7 +102,7 @@ export const POST = async (request) => {
 // ลบข้อมูลตำแหน่งออกจาก DB
 export const DELETE = async (request) => {
   const body = await request.json();
-
+  readDB();
   const parseResult = zPlayDeleteBody.safeParse(body);
   if (parseResult.success === false) {
     return NextResponse.json(
@@ -152,7 +161,7 @@ export const DELETE = async (request) => {
       std.username !== username ||
       (std.position.row !== position.row && std.position.col !== position.col)
   );
-
+  writeDB();
   return NextResponse.json({
     message: "has been deleted",
   });

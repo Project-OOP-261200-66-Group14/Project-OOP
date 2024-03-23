@@ -1,4 +1,6 @@
 export default function Player({ name }) {
+  
+
   return (
     <>
       <div class="mr-10">

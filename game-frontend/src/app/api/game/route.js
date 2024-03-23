@@ -1,10 +1,11 @@
-import { DB } from "@/app/libs/DB";
+import { DB, readDB, writeDB } from "@/app/libs/DB";
 import { zGameDeleteBody, zGamePostBody } from "@/app/libs/schema";
 import { NextResponse } from "next/server";
 
 // ส่งข้อมูลทั้งหมด
 export const GET = async (request) => {
-  const players = DB;
+  readDB();
+  const players = DB.players;
 
   return NextResponse.json({ players });
 };
@@ -12,7 +13,7 @@ export const GET = async (request) => {
 // สร้าง username 
 export const POST = async (request) => {
   const body = await request.json();
-
+  readDB();
   const parseResult = zGamePostBody.safeParse(body);
   if (parseResult.success === false) {
     return NextResponse.json(
@@ -38,7 +39,7 @@ export const POST = async (request) => {
   DB.players.push({
     username: body.username,
   });
-
+  writeDB();
   return NextResponse.json({
     message: `username ${body.username} has been added`,
   });
@@ -47,7 +48,7 @@ export const POST = async (request) => {
 // ลบ username
 export const DELETE = async (request) => {
   const body = await request.json();
-
+  readDB();
   const parseResult = zGameDeleteBody.safeParse(body);
   if (parseResult.success === false) {
     return NextResponse.json(
@@ -76,7 +77,8 @@ export const DELETE = async (request) => {
   }
 
   DB.players = DB.players.filter((std) => std.username !== body.username);
-
+  DB.table = DB.table.filter((std) => std.username !== body.username);
+  writeDB();
   return NextResponse.json({
     message: `username: ${body.username} has been deleted`,
   });

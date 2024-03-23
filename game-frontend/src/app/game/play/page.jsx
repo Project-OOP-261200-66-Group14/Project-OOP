@@ -4,55 +4,13 @@ import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlig
 import Player from "./player";
 import HexGrid from "./HexGrid";
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 export default function InGame() {
-  // ตรวจสอบว่าสร้างเมืองไหม
-  const [isBuildingCity, setIsBuildingCity] = useState(false);
-  const toggleBuildCity = () => {
-    setIsBuildingCity(!isBuildingCity);
-  };
-
-  // เก็บข้อมูลของเมือง
-  const [cityCrew, setCityCrew] = useState([]);
-
-  const addCityCrew = (row, col) => {
-    setCityCrew((prevPositions) => [...prevPositions, { row, col }]);
-  };
-
-  // pop up กับ Row กับ Col ตอนที่กด
-  const [isPopupOpen, setPopupOpen] = useState(false);
-  // setRow กับ Col ที่กำลังเลือก
-  const [rowIndex, setRowIndex] = useState(0);
-  const [colIndex, setColIndex] = useState(0);
-  const togglePopup = (row, col) => {
-    setPopupOpen(!isPopupOpen);
-    setRowIndex(row);
-    setColIndex(col);
-  };
-  
-  // สร้าง state เพื่อเก็บตำแหน่งที่กด
-  const [selectedCityCrew, setSelectedCityCrew] = useState(null);
-  // ฟังก์ชันสำหรับเซ็ตตำแหน่งที่กดและเปลี่ยนสี
-  const setHexCityCrew = (row, col) => {
-    setSelectedCityCrew({ row, col });
-    setPopupOpen(!isPopupOpen);
-    // เช็คว่ากำลังสร้างเมืองหรือไม่
-    if (isBuildingCity) {
-      // addCityCrew(row, col);
-      setIsBuildingCity(false);
-    }
-  };
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const name = urlParams.get("username");
-  const rows = 20;
-  const columns = 20;
-
   // Turn
   const [iturn, setIturn] = useState(0);
 
   // Time
-  const [time, setTime] = useState(1000);
+  const [time, setTime] = useState(200);
   useEffect(() => {
     let interval = null;
 
@@ -62,7 +20,7 @@ export default function InGame() {
       }, 1000);
     } else if (time <= 0) {
       setIturn((prevTurn) => prevTurn + 1);
-      setTime(5);
+      setTime(10);
     }
     return () => {
       clearInterval(interval);
@@ -77,6 +35,50 @@ export default function InGame() {
       .toString()
       .padStart(2, "0")}`;
   };
+
+  // เอา list player มาจาก API
+  const [players, setPlayers] = useState([]);
+  const loadPlayers = async () => {
+    try {
+      const resp = await axios.get("/api/game");
+      setPlayers(resp.data.players);
+    } catch {
+      console.log("Error loading players in game");
+    }
+  };
+
+  // pop up กับ Row กับ Col ตอนที่กด
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  // setRow กับ Col ที่กำลังเลือก
+  const [rowIndex, setRowIndex] = useState(0);
+  const [colIndex, setColIndex] = useState(0);
+  const togglePopup = (row, col) => {
+    setPopupOpen(!isPopupOpen);
+    setRowIndex(row);
+    setColIndex(col);
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loadPlayers();;
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // ระบุ username ที่เล่น
+  const urlParams = new URLSearchParams(window.location.search);
+  const username = urlParams.get("username");
+  // setRow, Col
+  const [cols, setCol] = useState(null);
+  const [rows, setRow] = useState(null);
+  const loadRowsCols = async () => {
+    const resp = await axios.get("/api/setting");
+    setRow(resp.data.setting.row);
+    setCol(resp.data.setting.col);
+  };
+
+  useEffect(() => {
+    loadRowsCols();
+  }, []);
 
   // ReadWrite
   const [constructionPlanText, setConstructionPlanText] = useState("");
@@ -101,6 +103,37 @@ export default function InGame() {
   // hiddenConstructionPlan
   const [constructionPlan, setConstructionPlan] = useState(false);
 
+  // delete Player
+  const deletePlayers = async () => {
+    try {
+      await axios.delete("/api/game", {
+        data: {
+          username: username,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // onClick สร้างเมือง
+  const createCity = async () => {
+    setPopupOpen(!isPopupOpen);
+    try {
+      await axios.post("/api/game/play", {
+        username: username,
+        positionName: "city",
+        position: {
+          row: rowIndex,
+          col: colIndex,
+        },
+      });
+      alert("สร้างเมืองเรียบร้อย");
+    } catch (error) {
+      alert("มีเมืองอยู่แล้ว");
+    }
+  };
+
   return (
     <>
       {isPopupOpen && (
@@ -122,12 +155,14 @@ export default function InGame() {
               {iturn === 0 && (
                 <button
                   class="bg-white rounded-md w-[240px]"
-                  onClick={() => setHexCityCrew(rowIndex, colIndex)}
+                  onClick={createCity}
                 >
                   สร้างเมือง
                 </button>
               )}
 
+              {iturn !== 0 && (
+                <>
                   <button
                     class="bg-white rounded-md w-[240px]"
                     onClick={() => setPopupOpen(!setPopupOpen)}
@@ -135,8 +170,6 @@ export default function InGame() {
                     สร้างเมืองย่อย
                   </button>
 
-              {iturn !== 0 && (
-                <>
                   <button
                     class="bg-white rounded-md w-[240px]"
                     onClick={() => setPopupOpen(!setPopupOpen)}
@@ -189,22 +222,21 @@ export default function InGame() {
           <div class="col-span-2 backdrop-blur-[1px]">
             <div class="flex flex-col">
               <div class="p-[40px]">
-                <h1 class="text-3xl animate__animated animate__lightSpeedInLeft ">
+                <h1 class="text-3xl">
                   TURN: {iturn === 0 ? "Setup Plan" : iturn}
                 </h1>
-                <div class="flex flex-row items-center animate__animated animate__lightSpeedInLeft mt-8">
+                <div class="flex flex-row items-center mt-8 animate__animated animate__fadeIn">
                   <img src="/picture/start/clock.png" class="h-10" />
                   <h1 class="text-3xl">Time: {formatTime(time)}</h1>
                 </div>
               </div>
-              <div class="flex flex-row mx-[40px] py-2 animate__animated animate__zoomIn overflow-y-scroll">
-                <Player name={name} />
-                <Player name={"bot1"} />
-                <Player name={"bot2"} />
-                <Player name={"bot3"} />
+              <div class="flex flex-col mx-[40px] py-2 overflow-y-scroll max-h-[640px] animate__animated animate__fadeIn">
+                {players.map((std, index) => (
+                  <Player key={index} name={std.username} />
+                ))}
               </div>
             </div>
-            <div>
+            {/* <div>
               <div
                 class="flex justify-between items-center bg-white mx-[40px] mt-12 px-[12px] py-[4px] rounded-md border-solid border-2 border-[#4a4e69]"
                 onClick={() => setConstructionPlan(!constructionPlan)}
@@ -248,19 +280,15 @@ export default function InGame() {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div class="col-span-4">
             <div class="h-full w-full flex items-center justify-center">
               <div class="max-h-[80vh] max-w-[80vw] overflow-scroll p-10 relative mr-10 mb-10">
                 <HexGrid
                   rows={rows}
-                  columns={columns}
+                  columns={cols}
                   togglePopup={togglePopup}
-                  selectedCityCrew={selectedCityCrew}
-                  cityCrew={cityCrew}
-                  addCityCrew={addCityCrew}
-                  toggleBuildCity={toggleBuildCity}
                   class="absolute"
                 />
               </div>
@@ -268,8 +296,8 @@ export default function InGame() {
           </div>
         </div>
 
-        <div class="min-h-screen">
-          <a href="/">
+        <div class="min-h-screen bg-red-400" onClick={deletePlayers}>
+          <a href="/" onClick={deletePlayers}>
             <img
               src="/picture/howto/homepage.png"
               alt=""
