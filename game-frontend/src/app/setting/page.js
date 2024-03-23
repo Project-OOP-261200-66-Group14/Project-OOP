@@ -1,46 +1,85 @@
 "use client";
 
 import "animate.css";
+import axios from "axios";
 import { useState } from "react";
 
 export default function Setting() {
-  const [col, setCol] = useState();
+  const [numPlayer, setNumPlayer] = useState(2);
+  const numPlayerOnChange = (event) => {
+    setNumPlayer(parseInt(event.target.value));
+  };
+
+  const [col, setCol] = useState(10);
   const colOnChange = (event) => {
-    setCol(event.target.value);
+    setCol(parseInt(event.target.value));
   };
 
-  const [row, setRow] = useState();
+  const [row, setRow] = useState(10);
   const rowOnChange = (event) => {
-    setRow(event.target.value);
+    setRow(parseInt(event.target.value));
   };
 
-  const [init_plan_min, setInit_plan_min] = useState();
+  const [init_plan_min, setInit_plan_min] = useState(2);
   const init_plan_minOnChange = (event) => {
-    setInit_plan_min(event.target.value);
+    setInit_plan_min(parseInt(event.target.value));
   };
 
-  const [init_plan_sec, setInit_plan_sec] = useState();
+  const [init_plan_sec, setInit_plan_sec] = useState(0);
   const init_plan_secOnChange = (event) => {
-    setInit_plan_sec(event.target.value);
+    setInit_plan_sec(parseInt(event.target.value));
   };
 
-  const [budget, setBudget] = useState();
+  const [budget, setBudget] = useState(10000);
   const budgetOnChange = (event) => {
-    setBudget(event.target.value);
+    setBudget(parseInt(event.target.value));
   };
 
-  const [interest, setInterest] = useState();
+  const [interest, setInterest] = useState(5);
   const interestOnChange = (event) => {
-    setInterest(event.target.value);
+    setInterest(parseInt(event.target.value));
   };
 
   const defaultSet = () => {
+    setNumPlayer(2);
     setCol(10);
     setRow(10);
     setBudget(10000);
     setInit_plan_min(3);
     setInit_plan_sec(0);
     setInterest(5);
+  };
+
+  const updateSettings = async () => {
+    try {
+      if (numPlayer < 2 || numPlayer > 6 || numPlayer === null) {
+        alert("Please select a Players between 2-6");
+      } else if (row < 10 || row > 100) {
+        alert("Please select a Rows between 10-100");
+      } else if (col < 10 || col > 100) {
+        alert("Please select a Column between 10-100");
+      } else if (init_plan_min < 1 || init_plan_min > 5) {
+        alert("Please select a Time to Plan(min) between 1-5");
+      } else if (init_plan_sec < 0 || init_plan_sec > 59) {
+        alert("Please select a Time to Plan(sec) between 0-59");
+      } else if (budget < 5000 || budget > 50000) {
+        alert("Please select a Budget between 5000-50000");
+      } else if (interest < 2 || interest > 20) {
+        alert("Please select a Interest Rate between 2-20");
+      } else {
+        await axios.put("/api/setting", {
+          numPlayer: numPlayer,
+          col: col,
+          row: row,
+          initplan: init_plan_min * 60 + init_plan_sec,
+          budget: budget,
+          interest: interest,
+        });
+        alert("UPDATE SUCCESS");
+      }
+    } catch (error) {
+      alert("ERROR");
+    }
   };
 
   return (
@@ -51,6 +90,21 @@ export default function Setting() {
 
           <div class="p-10 mt-3 backdrop-blur-[1px]">
             <div class="flex flex-row gap-10">
+              <h1 class="text-2xl">Players</h1>
+              <input
+                type="number"
+                name="numPlayer"
+                id="numPlayer"
+                min="2"
+                max="6"
+                placeholder="2-6"
+                onChange={numPlayerOnChange}
+                value={numPlayer}
+                class="bg-white rounded-full max-h-[32px] text-center"
+              />
+            </div>
+
+            <div class="flex flex-row gap-10 pt-10">
               <h1 class="text-2xl">COLUMN</h1>
               <input
                 type="number"
@@ -144,10 +198,12 @@ export default function Setting() {
           </div>
 
           <div class="flex flex-row gap-24">
-            <button class="bg-white w-32" onClick={defaultSet}>
-              Default
+            <button class="w-48" onClick={defaultSet}>
+              <img src="/picture/setting/Default.png" class="hover:scale-110" />
             </button>
-            <button class="bg-white w-32">Enter</button>
+            <button class="w-48" onClick={updateSettings}>
+              <img src="/picture/setting/Enter.png" class="hover:scale-110" />
+            </button>
           </div>
         </div>
 

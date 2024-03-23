@@ -4,20 +4,21 @@ import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlig
 import Player from "./player";
 import HexGrid from "./HexGrid";
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 export default function InGame() {
-  // ตรวจสอบว่าสร้างเมืองไหม
-  const [isBuildingCity, setIsBuildingCity] = useState(false);
-  const toggleBuildCity = () => {
-    setIsBuildingCity(!isBuildingCity);
+  // เอา list player มาจาก API
+  const [players, setPlayers] = useState([]);
+  const loadPlayers = async () => {
+    try {
+      const resp = await axios.get("/api/game");
+      setPlayers(resp.data.players);
+    } catch {
+      console.log("Error loading players in game");
+    }
   };
-
-  // เก็บข้อมูลของเมือง
-  const [cityCrew, setCityCrew] = useState([]);
-
-  const addCityCrew = (row, col) => {
-    setCityCrew((prevPositions) => [...prevPositions, { row, col }]);
-  };
+  useEffect(() => {
+    loadPlayers();
+  }, []);
 
   // pop up กับ Row กับ Col ตอนที่กด
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -29,22 +30,9 @@ export default function InGame() {
     setRowIndex(row);
     setColIndex(col);
   };
-  
-  // สร้าง state เพื่อเก็บตำแหน่งที่กด
-  const [selectedCityCrew, setSelectedCityCrew] = useState(null);
-  // ฟังก์ชันสำหรับเซ็ตตำแหน่งที่กดและเปลี่ยนสี
-  const setHexCityCrew = (row, col) => {
-    setSelectedCityCrew({ row, col });
-    setPopupOpen(!isPopupOpen);
-    // เช็คว่ากำลังสร้างเมืองหรือไม่
-    if (isBuildingCity) {
-      // addCityCrew(row, col);
-      setIsBuildingCity(false);
-    }
-  };
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const name = urlParams.get("username");
+  // const urlParams = new URLSearchParams(window.location.search);
+  // const name = urlParams.get("username");
   const rows = 20;
   const columns = 20;
 
@@ -99,7 +87,7 @@ export default function InGame() {
   };
 
   // hiddenConstructionPlan
-  const [constructionPlan, setConstructionPlan] = useState(false);
+  // const [constructionPlan, setConstructionPlan] = useState(false);
 
   return (
     <>
@@ -122,12 +110,14 @@ export default function InGame() {
               {iturn === 0 && (
                 <button
                   class="bg-white rounded-md w-[240px]"
-                  onClick={() => setHexCityCrew(rowIndex, colIndex)}
+                  onClick={() => setPopupOpen(!setPopupOpen)}
                 >
                   สร้างเมือง
                 </button>
               )}
 
+              {iturn !== 0 && (
+                <>
                   <button
                     class="bg-white rounded-md w-[240px]"
                     onClick={() => setPopupOpen(!setPopupOpen)}
@@ -135,8 +125,6 @@ export default function InGame() {
                     สร้างเมืองย่อย
                   </button>
 
-              {iturn !== 0 && (
-                <>
                   <button
                     class="bg-white rounded-md w-[240px]"
                     onClick={() => setPopupOpen(!setPopupOpen)}
@@ -197,14 +185,13 @@ export default function InGame() {
                   <h1 class="text-3xl">Time: {formatTime(time)}</h1>
                 </div>
               </div>
-              <div class="flex flex-row mx-[40px] py-2 animate__animated animate__zoomIn overflow-y-scroll">
-                <Player name={name} />
-                <Player name={"bot1"} />
-                <Player name={"bot2"} />
-                <Player name={"bot3"} />
+              <div class="flex flex-col mx-[40px] py-2 animate__animated animate__zoomIn overflow-y-scroll max-h-[640px]">
+                {players.map((std, index) => (
+                  <Player key={index} name={std.username} />
+                ))}
               </div>
             </div>
-            <div>
+            {/* <div>
               <div
                 class="flex justify-between items-center bg-white mx-[40px] mt-12 px-[12px] py-[4px] rounded-md border-solid border-2 border-[#4a4e69]"
                 onClick={() => setConstructionPlan(!constructionPlan)}
@@ -248,7 +235,7 @@ export default function InGame() {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div class="col-span-4">
             <div class="h-full w-full flex items-center justify-center">
@@ -257,10 +244,6 @@ export default function InGame() {
                   rows={rows}
                   columns={columns}
                   togglePopup={togglePopup}
-                  selectedCityCrew={selectedCityCrew}
-                  cityCrew={cityCrew}
-                  addCityCrew={addCityCrew}
-                  toggleBuildCity={toggleBuildCity}
                   class="absolute"
                 />
               </div>
@@ -268,7 +251,7 @@ export default function InGame() {
           </div>
         </div>
 
-        <div class="min-h-screen">
+        {/* <div class="min-h-screen">
           <a href="/">
             <img
               src="/picture/howto/homepage.png"
@@ -276,7 +259,7 @@ export default function InGame() {
               class="w-[80px] max-w-48 absolute bottom-4 left-4 hover:scale-110"
             />
           </a>
-        </div>
+        </div> */}
       </main>
     </>
   );

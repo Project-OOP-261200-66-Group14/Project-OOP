@@ -63,6 +63,11 @@
     background-size: cover;
   }
 
+  .bg-Wait {
+    background-image: url("/picture/start/wait.png");
+    background-size: cover;
+  }
+
   h1 {
     color: #ffffff;
     font-size: 4em;

@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 // ส่งข้อมูลทั้งหมด
 export const GET = async (request) => {
-  const players = DB;
+  const players = DB.players;
 
   return NextResponse.json({ players });
 };

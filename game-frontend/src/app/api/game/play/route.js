@@ -18,6 +18,14 @@ export const GET = async (request) => {
     );
   }
 
+  const foundUsername = DB.players.find((std) => std.username === username);
+  if (!foundUsername) {
+    return NextResponse.json(
+      { message: "username not found" },
+      { status: 400 }
+    );
+  }
+
   const cityList = [];
   for (const city of DB.table) {
     if (city.username === username) {
