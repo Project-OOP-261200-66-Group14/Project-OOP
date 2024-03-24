@@ -1,0 +1,13 @@
+{
+  "players": [],
+  "table": [],
+  "setting": {
+    "numPlayer": 2,
+    "col": 20,
+    "row": 20,
+    "initplan": 60,
+    "budget": 10000,
+    "interest": 5
+  },
+  "current": []
+}
