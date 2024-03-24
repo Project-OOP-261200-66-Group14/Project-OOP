@@ -15,9 +15,10 @@ const originalDB = {
     row: 20,
     col: 20,
     budget: 10000,
-    initplan: 3 * 60 + 0,
+    initplan: 1 * 60 + 0,
     interest: 5,
   },
+  current: []
 };
 
 let lowDB = new LowSync(adapter, originalDB);

@@ -76,8 +76,10 @@ export const DELETE = async (request) => {
     );
   }
 
+
   DB.players = DB.players.filter((std) => std.username !== body.username);
   DB.table = DB.table.filter((std) => std.username !== body.username);
+  DB.current = DB.current.filter((std) => std.username !== body.username);
   writeDB();
   return NextResponse.json({
     message: `username: ${body.username} has been deleted`,

@@ -5,47 +5,47 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function Setting() {
-  const [numPlayer, setNumPlayer] = useState(2);
+  const [numPlayer, setNumPlayer] = useState(null);
   const numPlayerOnChange = (event) => {
     setNumPlayer(parseInt(event.target.value));
   };
 
-  const [col, setCol] = useState(10);
+  const [col, setCol] = useState(null);
   const colOnChange = (event) => {
     setCol(parseInt(event.target.value));
   };
 
-  const [row, setRow] = useState(10);
+  const [row, setRow] = useState(null);
   const rowOnChange = (event) => {
     setRow(parseInt(event.target.value));
   };
 
-  const [init_plan_min, setInit_plan_min] = useState(2);
+  const [init_plan_min, setInit_plan_min] = useState(null);
   const init_plan_minOnChange = (event) => {
     setInit_plan_min(parseInt(event.target.value));
   };
 
-  const [init_plan_sec, setInit_plan_sec] = useState(0);
+  const [init_plan_sec, setInit_plan_sec] = useState(null);
   const init_plan_secOnChange = (event) => {
     setInit_plan_sec(parseInt(event.target.value));
   };
 
-  const [budget, setBudget] = useState(10000);
+  const [budget, setBudget] = useState(null);
   const budgetOnChange = (event) => {
     setBudget(parseInt(event.target.value));
   };
 
-  const [interest, setInterest] = useState(5);
+  const [interest, setInterest] = useState(null);
   const interestOnChange = (event) => {
     setInterest(parseInt(event.target.value));
   };
 
   const defaultSet = () => {
     setNumPlayer(2);
-    setCol(10);
-    setRow(10);
+    setCol(20);
+    setRow(20);
     setBudget(10000);
-    setInit_plan_min(3);
+    setInit_plan_min(1);
     setInit_plan_sec(0);
     setInterest(5);
   };
@@ -54,17 +54,17 @@ export default function Setting() {
     try {
       if (numPlayer < 2 || numPlayer > 6 || numPlayer === null) {
         alert("Please select a Players between 2-6");
-      } else if (row < 10 || row > 100) {
+      } else if (row < 10 || row > 100 || row === null) {
         alert("Please select a Rows between 10-100");
-      } else if (col < 10 || col > 100) {
+      } else if (col < 10 || col > 100 || col === null) {
         alert("Please select a Column between 10-100");
-      } else if (init_plan_min < 1 || init_plan_min > 5) {
+      } else if (init_plan_min < 1 || init_plan_min > 5 || init_plan_min === null) {
         alert("Please select a Time to Plan(min) between 1-5");
-      } else if (init_plan_sec < 0 || init_plan_sec > 59) {
+      } else if (init_plan_sec < 0 || init_plan_sec > 59 || init_plan_sec === null) {
         alert("Please select a Time to Plan(sec) between 0-59");
-      } else if (budget < 5000 || budget > 50000) {
+      } else if (budget < 5000 || budget > 50000 || budget === null) {
         alert("Please select a Budget between 5000-50000");
-      } else if (interest < 2 || interest > 20) {
+      } else if (interest < 2 || interest > 20 || interest === null) {
         alert("Please select a Interest Rate between 2-20");
       } else {
         await axios.put("/api/setting", {
@@ -105,6 +105,21 @@ export default function Setting() {
             </div>
 
             <div class="flex flex-row gap-10 pt-10">
+              <h1 class="text-2xl">ROW</h1>
+              <input
+                type="number"
+                name="row"
+                id="row"
+                min="10"
+                max="100"
+                placeholder="10-100"
+                onChange={rowOnChange}
+                value={row}
+                class="bg-white rounded-full max-h-[32px] text-center"
+              />
+            </div>
+
+            <div class="flex flex-row gap-10 pt-10">
               <h1 class="text-2xl">COLUMN</h1>
               <input
                 type="number"
@@ -119,20 +134,6 @@ export default function Setting() {
               />
             </div>
 
-            <div class="flex flex-row gap-10 pt-10">
-              <h1 class="text-2xl">ROW</h1>
-              <input
-                type="number"
-                name="row"
-                id="row"
-                min="10"
-                max="100"
-                placeholder="10-100"
-                onChange={rowOnChange}
-                value={row}
-                class="bg-white rounded-full max-h-[32px] text-center"
-              />
-            </div>
 
             <div class="flex flex-row items-center gap-10 pt-10">
               <h1 class="text-2xl">TIME TO PLAN</h1>

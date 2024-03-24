@@ -26,7 +26,7 @@ export default function Game() {
     const interval = setInterval(() => {
       loadSettingPlayer();
       loadUesr();
-    }, 1000);
+    }, 500);
     return () => clearInterval(interval);
   }, []);
 
@@ -56,7 +56,7 @@ export default function Game() {
       });
       setWait(true);
     } catch (error) {
-      alert("กด Submit ใหม่อีกครั้ง, อาจจะมีชื่อซ้ำ");
+      alert("ชื่อต้องมีความยาวมากกว่า3, อาจจะมีชื่อซ้ำ!!");
     }
   };
 

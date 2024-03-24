@@ -16,9 +16,9 @@ export default function HexGrid({ rows, columns, togglePopup }) {
         const { row, col } = item.position;
         // เช็คว่า username เป็นของตัวเองหรือไม่
         if (item.username === username) {
-          colors[`${row}-${col}`] = "blue-500";
+          colors[`${row}-${col}`] = item.positionName === "city" ? "bg-blue-600":"bg-blue-300";
         } else {
-          colors[`${row}-${col}`] = item.username ? "red-500" : "white";
+          colors[`${row}-${col}`] = item.username ? "bg-red-500" : "bg-white";
         }
       });
 
@@ -53,15 +53,15 @@ export default function HexGrid({ rows, columns, togglePopup }) {
               .fill(null)
               .map((_, colIndex) => {
                 const hexKey = `${rowIndex}-${colIndex}`;
-                const bgColor = hexColor[hexKey] || "white";
+                const bgColor = hexColor[hexKey] || "bg-white";
 
                 return (
                   <div
                     key={colIndex}
                     class={
                       colIndex % 2 === 0
-                        ? `hex -ml-[10px] bg-${bgColor} hover:bg-gray-300`
-                        : `hex -mt-[65px] -ml-[10px] bg-${bgColor} hover:bg-gray-300`
+                        ? `hex -ml-[10px] ${bgColor} hover:bg-gray-300`
+                        : `hex -mt-[65px] -ml-[10px] ${bgColor} hover:bg-gray-300`
                     }
                     onClick={() => togglePopup(rowIndex, colIndex)}
                   >

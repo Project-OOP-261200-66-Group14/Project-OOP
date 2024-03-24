@@ -148,18 +148,18 @@ export const DELETE = async (request) => {
   }
 
   // ถ้า positionName: city จะลบไม่ได้
-  if (positionName === "city") {
-    return NextResponse.json(
-      { message: "city position cannot be deleted" },
-      { status: 400 }
-    );
-  }
+  // if (positionName === "city") {
+  //   return NextResponse.json(
+  //     { message: "city position cannot be deleted" },
+  //     { status: 400 }
+  //   );
+  // }
 
   // update DB
   DB.table = DB.table.filter(
     (std) =>
       std.username !== username ||
-      (std.position.row !== position.row && std.position.col !== position.col)
+      (std.position.row !== position.row || std.position.col !== position.col)
   );
   writeDB();
   return NextResponse.json({

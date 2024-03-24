@@ -2,11 +2,12 @@
   "players": [],
   "table": [],
   "setting": {
-    "numPlayer": 4,
-    "col": 10,
-    "row": 10,
-    "initplan": 120,
+    "numPlayer": 2,
+    "col": 20,
+    "row": 20,
+    "initplan": 60,
     "budget": 10000,
     "interest": 5
-  }
+  },
+  "current": []
 }
