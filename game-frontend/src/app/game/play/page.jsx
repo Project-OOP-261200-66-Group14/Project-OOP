@@ -110,7 +110,7 @@ export default function InGame() {
       setTime(10);
       setIturn(0);
     } else {
-      setConstructionPlanText(constructionPlanText + text + "\n");
+      setConstructionPlanText("" + text + "\n");
     }
     setText("");
   };
