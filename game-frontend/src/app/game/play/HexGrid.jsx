@@ -16,7 +16,8 @@ export default function HexGrid({ rows, columns, togglePopup }) {
         const { row, col } = item.position;
         // เช็คว่า username เป็นของตัวเองหรือไม่
         if (item.username === username) {
-          colors[`${row}-${col}`] = item.positionName === "city" ? "bg-blue-600":"bg-blue-300";
+          colors[`${row}-${col}`] =
+            item.positionName === "city" ? "bg-blue-600" : "bg-blue-300";
         } else {
           colors[`${row}-${col}`] = item.username ? "bg-red-500" : "bg-white";
         }
@@ -27,14 +28,13 @@ export default function HexGrid({ rows, columns, togglePopup }) {
       console.error("Error loading hex colors:", error);
     }
   };
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
-      loadHexColor();;
+      loadHexColor();
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-
 
   return (
     <div>
@@ -65,7 +65,13 @@ export default function HexGrid({ rows, columns, togglePopup }) {
                     }
                     onClick={() => togglePopup(rowIndex, colIndex)}
                   >
-                    <p class="h-full flex justify-center items-center">
+                    <p
+                      class={
+                        bgColor === "bg-blue-600"
+                          ? `h-full flex justify-center items-center text-white`
+                          : `h-full flex justify-center items-center`
+                      }
+                    >
                       {rowIndex + 1},{colIndex + 1}
                     </p>
                   </div>

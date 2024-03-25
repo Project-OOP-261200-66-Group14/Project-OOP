@@ -383,23 +383,23 @@ export default function InGame() {
               <div class="col-span-2 backdrop-blur-[1px]">
                 <div class="flex flex-col">
                   <div class="p-[40px]">
-                    <h1 class="text-3xl">
+                    <h1 class="text-[24px]">
                       TURN:{iturn === 0 ? "Setup Plan" : iturn}
                     </h1>
                     <div class="flex flex-row items-center mt-8 animate__animated animate__fadeIn">
                       <img src="/picture/start/clock.png" class="h-10" />
-                      <h1 class="text-3xl">Time: {formatTime(time)}</h1>
+                      <h1 class="text-[24px]">Time: {formatTime(time)}</h1>
                     </div>
                   </div>
-                  <div class="flex flex-col mx-[40px] py-2 overflow-y-scroll max-h-[640px] animate__animated animate__fadeIn">
+                  <div class="flex flex-col mx-[40px] py-2 overflow-y-scroll max-h-[640px] animate__animated animate__fadeIn ">
                     {players.map((std, index) => (
                       <Player key={index} name={std.username} />
                     ))}
                   </div>
                 </div>
-                {/* <div>
+                <div>
               <div
-                class="flex justify-between items-center bg-white mx-[40px] mt-12 px-[12px] py-[4px] rounded-md border-solid border-2 border-[#4a4e69]"
+                class="flex justify-between items-center bg-white mx-[40px] mt-4 px-[12px] py-[4px] rounded-md border-solid border-2 border-[#4a4e69]"
                 onClick={() => setConstructionPlan(!constructionPlan)}
               >
                 <p class="text-[#4a4e69] ">construction plan</p>
@@ -410,7 +410,7 @@ export default function InGame() {
                 )}
               </div>
               <div
-                class={`bg-white mx-[40px] mt-4 rounded-md border-solid border-2 border-[#4a4e69] ${
+                class={`bg-white mx-[40px] mt-2 rounded-md border-solid border-2 border-[#4a4e69] ${
                   constructionPlan
                     ? "animate__animated animate__fadeOut"
                     : "animate__animated animate__fadeIn"
@@ -441,7 +441,7 @@ export default function InGame() {
                   </button>
                 </div>
               </div>
-            </div> */}
+            </div>
               </div>
               <div class="col-span-4">
                 <div class="h-full w-full flex items-center justify-center">
